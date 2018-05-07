@@ -40,23 +40,39 @@ class TicTacToe
     return TRUE
     end
   end
+  
   def turn
     puts "Please enter 1-9:"
     user_input = gets.strip
     index_number = input_to_index(user_input)
-      if valid_move?(index_number) 
+    if valid_move?(index_number) 
       move(index_number, current_player)
       display_board
-      else 
+    else 
       user_input = gets.strip
-      end
     end
+  end
+
   def turn_count
     @board.count{|token| token == "X" || token == "O"}
   end
+  
+  def turn_count
+    counter = 0
+    board.each do |position|
+      if position == "X"
+        counter += 1
+      elsif position == "O"
+        counter += 1
+      end
+    end
+    counter
+  end
+  
   def current_player
     turn_count.even? ? "X" : "O"
   end
+  
   def won?
     WIN_COMBINATIONS.each do | win_combination |
       win_index_1 = win_combination[0]
@@ -76,14 +92,10 @@ class TicTacToe
     if all_O || all_X
       return win_combination
     end
-    
-    #if (position_1 == "X" && position_2 == "X" && position_3 == "X") || (position_1== "O" && position_2 == "O" && position_3 == "O")
-    #  return win_combination
-    # end
     end
-    # return false if no winning combination found
     return false
   end
+  
   def full?
     return board.all? {| element | element == "X" || element == "O"}
   end
@@ -94,12 +106,15 @@ class TicTacToe
       return false
     end
   end
+  
   def over?
     (won? || draw?)? true : false
   end
+  
   def winner
-  (won?)? board[(won?)[0]] : nil
+    (won?)? board[(won?)[0]] : nil
   end
+  
   def play
     until over? == true
       turn
